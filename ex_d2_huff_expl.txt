@@ -1,0 +1,172 @@
+content = """PRACTICAL 2 – HUFFMAN ENCODING AND DECODING
+==============================================
+
+1. AIM
+------
+To implement Huffman Encoding and Decoding using the Greedy Method.
+
+2. CONCEPT
+----------
+Huffman Coding is a lossless compression technique. It assigns variable-length
+binary codes based on character frequency.
+
+- Frequent characters generally get shorter codes.
+- Less frequent characters generally get longer codes.
+
+A Min Priority Queue is used to repeatedly select the two nodes with the
+smallest frequencies and combine them into a new parent node.
+
+3. WORKING OF THE ALGORITHM
+---------------------------
+1. Read the input text using getline(), including spaces.
+2. Count the frequency of every character.
+3. Insert each character and its frequency into a Min Priority Queue.
+4. Remove the two nodes with the smallest frequencies.
+5. Create a parent node with their combined frequency and insert it back.
+6. Repeat until one node remains. It is the root of the Huffman Tree.
+7. Generate codes: left branch = 0, right branch = 1.
+8. Encode by joining each character's code.
+9. Decode by following the tree for each bit. When a leaf is reached,
+   output its character and return to the root.
+
+4. IMPLEMENTATION DETAILS
+-------------------------
+
+A. Node structure
+-----------------
+Each Node stores:
+- ch: character represented by a leaf.
+- freq: character frequency or combined subtree frequency.
+- left and right: pointers to child nodes.
+
+The character constructor creates a leaf node. The parent constructor
+creates an internal node with the sum of its children's frequencies.
+isLeaf() checks whether both child pointers are null.
+
+B. CompareFreq
+--------------
+The comparator:
+    return a->freq > b->freq;
+
+makes priority_queue act as a Min Priority Queue, so the smallest
+frequency is removed first.
+
+C. Frequency functions
+----------------------
+countFrequencies() counts how many times each character occurs using
+unordered_map<char, int>.
+
+displayFrequencies() displays the counts. It uses map to show characters
+in sorted order and prints spaces/tabs as [space]/[tab].
+
+D. buildTree()
+--------------
+Creates one leaf node per distinct character and inserts it into the
+priority queue. It repeatedly removes the two minimum-frequency nodes,
+creates a parent with their summed frequency, and inserts the parent
+back. The last remaining node becomes g_root.
+
+It then clears g_codes and calls generateCodes().
+
+E. generateCodes()
+------------------
+Recursively traverses the tree:
+- Left adds '0'.
+- Right adds '1'.
+- At a leaf, stores the current path in g_codes.
+
+For text containing only one distinct character, the code is set to "0"
+instead of an empty string.
+
+F. encode() and decode()
+------------------------
+encode() replaces every character in the original text with its code
+from g_codes and joins the codes into one binary string.
+
+decode() starts at the root and reads each bit:
+- '0': move left.
+- '1': move right.
+When a leaf is reached, append its character and reset to the root.
+
+Huffman codes are prefix-free: no complete code is the prefix of another.
+Therefore, the decoder can identify each character without separators.
+
+G. run() menu
+-------------
+run() reads the input, displays frequencies, builds the tree and shows
+the menu repeatedly.
+
+1. Build Huffman Tree: rebuilds the tree and displays the codes.
+2. Encode the Text: displays the original text, encoded binary string
+   and Huffman code table.
+3. Decode the Text: encodes the original text, then decodes it using
+   the same tree and displays the result.
+4. Exit: terminates the menu.
+
+main() simply calls run().
+
+5. COMPLEXITY
+-------------
+Let n = total characters and k = distinct characters.
+
+- Frequency counting: O(n)
+- Tree construction: O(k log k)
+- Encoding: O(n) character lookups, excluding string allocation overhead.
+- Decoding: O(B), where B is the number of encoded bits.
+- Space: O(k) for the tree/code table, plus O(n) for text and output strings.
+
+6. IMPORTANT VIVA QUESTIONS
+---------------------------
+
+Q1. Which technique is used?
+Ans. Greedy Method.
+
+Q2. Why is a Min Priority Queue used?
+Ans. To select the two nodes with the smallest frequencies efficiently.
+
+Q3. What do left and right branches represent?
+Ans. Left represents 0 and right represents 1.
+
+Q4. Why do frequent characters get shorter codes?
+Ans. This reduces the total number of bits used to store the text.
+
+Q5. What is a prefix-free code?
+Ans. No complete character code is the starting part of another code.
+This makes decoding unambiguous.
+
+Q6. Why is the Huffman Tree needed for decoding?
+Ans. It maps each binary path back to its original character.
+
+Q7. Why is getline() used?
+Ans. It reads the full input line, including spaces.
+
+Q8. What is the tree-building time complexity?
+Ans. O(k log k), where k is the number of distinct characters.
+
+Q9. What if the input has only one distinct character?
+Ans. This implementation assigns it the code "0".
+
+Q10. What if two nodes have equal frequencies?
+Ans. Either may be selected first, producing different valid code tables
+with the same optimal encoded cost.
+
+7. NOTE ABOUT THIS IMPLEMENTATION
+---------------------------------
+The Decode menu option decodes the encoded original input using the same
+Huffman Tree built from that input. The supplied decode() function assumes
+the binary string is valid and complete; it does not validate invalid bits
+or incomplete final codes.
+
+To decode in another program/session, the Huffman Tree or equivalent
+frequency information must also be saved or transmitted.
+
+QUICK REVISION
+--------------
+Frequency count → Min Priority Queue → Merge two minimum nodes →
+Build Huffman Tree → Generate codes (left 0, right 1) →
+Encode text → Decode using the same tree.
+"""
+path = "/mnt/data/Practical_2_Huffman_Encoding_Decoding_Explanation_Short.txt"
+with open(path, "w", encoding="utf-8") as f:
+    f.write(content)
+print(path)

@@ -1,0 +1,337 @@
+# DAA Practical 1 – Fibonacci Series Using Recursive and Non-Recursive Methods
+
+## 1. Aim
+
+To implement a C++ program to generate the Fibonacci series using recursive and non-recursive methods and analyze their time and space complexity.
+
+## 2. What is the Fibonacci Series?
+
+The Fibonacci series is a sequence of numbers in which every number after the first two numbers is the sum of the previous two numbers.
+
+The series starts with:
+
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34 ...
+
+### Mathematical Formula
+
+F(0) = 0
+
+F(1) = 1
+
+F(n) = F(n-1) + F(n-2)
+
+### Example
+
+F(5) = F(4) + F(3)
+
+F(5) = 3 + 2
+
+F(5) = 5
+
+Therefore, the fifth Fibonacci number is 5 when counting starts from F(0).
+
+## 3. What is Recursion?
+
+Recursion is a programming technique in which a function calls itself to solve a smaller version of the same problem.
+
+A recursive function must have:
+
+1. Base Condition: Stops further recursive calls.
+2. Recursive Call: Calls the same function with a smaller input.
+
+In Fibonacci, the base conditions are:
+
+- If n = 0, return 0.
+- If n = 1, return 1.
+
+Without a base condition, recursion may continue indefinitely and cause stack overflow.
+
+## 4. What is Iteration?
+
+Iteration is a programming technique that uses loops such as for, while or do-while to repeat a set of instructions.
+
+In the iterative Fibonacci method, we use a loop to calculate each next number using the previous two numbers.
+
+It does not require recursive function calls.
+
+## 5. Working of Non-Recursive (Iterative) Method
+
+The iterative method uses three variables:
+
+- a: Stores the previous-to-previous Fibonacci number.
+- b: Stores the previous Fibonacci number.
+- c: Stores the newly calculated Fibonacci number.
+
+### Algorithm
+
+1. Start.
+2. Accept the value of n.
+3. If n is 0 or 1, return n.
+4. Initialize a = 0 and b = 1.
+5. Run a loop from i = 2 to n.
+6. Calculate c = a + b.
+7. Update a = b and b = c.
+8. Repeat until the loop finishes.
+9. Return b.
+10. Stop.
+
+### Example: Calculate F(5)
+
+Initial values:
+
+a = 0, b = 1
+
+| Iteration | a | b | c = a + b |
+|---|---:|---:|---:|
+| 1 | 0 | 1 | 1 |
+| 2 | 1 | 1 | 2 |
+| 3 | 1 | 2 | 3 |
+| 4 | 2 | 3 | 5 |
+
+Final result:
+
+F(5) = 5.
+
+## 6. Working of Recursive Method
+
+The recursive method directly applies the Fibonacci mathematical formula.
+
+F(n) = F(n-1) + F(n-2)
+
+### Algorithm
+
+1. Start.
+2. Accept the value of n.
+3. Check the base condition.
+4. If n <= 1, return n.
+5. Otherwise, calculate recursive(n-1) + recursive(n-2).
+6. Continue until base conditions are reached.
+7. Return the calculated result.
+8. Stop.
+
+### Example: Calculate F(4)
+
+F(4) = F(3) + F(2)
+
+F(3) = F(2) + F(1)
+
+F(2) = F(1) + F(0)
+
+Using the base conditions:
+
+F(0) = 0
+
+F(1) = 1
+
+Therefore:
+
+F(2) = 1 + 0 = 1
+
+F(3) = 1 + 1 = 2
+
+F(4) = 2 + 1 = 3
+
+Final result:
+
+F(4) = 3.
+
+## 7. What is a Call Stack?
+
+A call stack is a memory area used by the program to manage function calls.
+
+Whenever a function calls itself, a new stack frame is created.
+
+Each stack frame generally stores:
+
+- Function parameters.
+- Local variables.
+- Return address.
+- Other function execution information.
+
+The call stack follows the LIFO principle.
+
+LIFO means Last In, First Out.
+
+The last function called is the first function to return.
+
+### Why does recursive Fibonacci have O(n) space complexity?
+
+The maximum depth of recursive Fibonacci calls is proportional to n.
+
+Each active function call occupies memory in the call stack.
+
+Therefore, the maximum additional memory required is O(n).
+
+Although recursive Fibonacci makes many total function calls, they are not all active simultaneously.
+
+## 8. Difference Between Recursive and Non-Recursive Methods
+
+| Parameter | Recursive | Non-Recursive |
+|---|---|---|
+| Approach | Function calls itself | Uses loops |
+| Base condition | Required | Not required in the same way |
+| Time complexity | O(2^n) upper bound | O(n) for one nth-term calculation |
+| Space complexity | O(n) | O(1) |
+| Speed | Slower | Faster |
+| Repeated calculations | Yes | No |
+| Memory usage | More | Less |
+
+## 9. Time Complexity Analysis
+
+### Iterative Method
+
+The iterative method uses a loop that executes approximately n times.
+
+Each iteration performs constant-time operations.
+
+Therefore:
+
+Time Complexity = O(n)
+
+Space Complexity = O(1)
+
+Only three main variables are used, regardless of input size.
+
+### Recursive Method
+
+Every recursive call can generate two additional calls.
+
+It repeatedly calculates the same Fibonacci values.
+
+Therefore:
+
+Time Complexity = O(2^n) as an upper bound.
+
+The tighter bound is Θ(1.618^n).
+
+Space Complexity = O(n)
+
+This is because the maximum recursion depth is proportional to n.
+
+### Complexity When Printing the Entire Series
+
+In the current program, each term is calculated by calling the Fibonacci function separately.
+
+Therefore:
+
+- Iterative series printing: O(n²).
+- Recursive series printing: O(2^n) upper bound.
+
+These complexities are for the particular implementation that recalculates every term separately.
+
+## 10. What is Integer Overflow?
+
+Integer overflow occurs when a calculated value exceeds the maximum storage capacity of a data type.
+
+A typical 32-bit signed int supports values from:
+
+-2,147,483,648 to 2,147,483,647.
+
+Fibonacci values:
+
+F(45) = 1,134,903,170
+
+F(46) = 1,836,311,903
+
+F(47) = 2,971,215,073
+
+F(47) exceeds the maximum 32-bit signed integer value.
+
+Therefore, using int for F(47) causes signed integer overflow.
+
+The current practical code restricts input to 40 terms for manageable recursive execution and safe integer storage.
+
+## 11. What is the Difference Between Time and Space Complexity?
+
+Time Complexity measures how the number of operations grows with input size.
+
+Space Complexity measures how much additional memory an algorithm requires as input size increases.
+
+For Fibonacci:
+
+- Iterative method: O(n) time and O(1) space for one nth-term calculation.
+- Recursive method: O(2^n) upper-bound time and O(n) space for one nth-term calculation.
+
+## 12. Important Viva Questions
+
+**Q1. What is the Fibonacci series?**
+
+A sequence in which every number is the sum of the previous two numbers.
+
+**Q2. What is recursion?**
+
+A technique in which a function calls itself.
+
+**Q3. What is iteration?**
+
+A technique that repeats instructions using loops.
+
+**Q4. What are the base conditions in Fibonacci?**
+
+F(0) = 0 and F(1) = 1.
+
+**Q5. Which method is faster?**
+
+The iterative method because it avoids repeated calculations.
+
+**Q6. What is the time complexity of iterative Fibonacci?**
+
+O(n) for calculating one nth term.
+
+**Q7. What is the time complexity of recursive Fibonacci?**
+
+O(2^n) as an upper bound.
+
+**Q8. What is the space complexity of iterative Fibonacci?**
+
+O(1).
+
+**Q9. What is the space complexity of recursive Fibonacci?**
+
+O(n), because of the recursive call stack.
+
+**Q10. What is a call stack?**
+
+A memory structure used to manage function calls. It follows the LIFO principle.
+
+**Q11. What is a base condition?**
+
+A condition that stops recursive function calls.
+
+**Q12. Why is recursive Fibonacci slower?**
+
+Because it calculates the same Fibonacci values multiple times.
+
+**Q13. How can recursive Fibonacci be optimized?**
+
+By using memoization or dynamic programming to store previously calculated values.
+
+**Q14. What is integer overflow?**
+
+It occurs when a calculated value exceeds the storage capacity of a data type.
+
+**Q15. What is the difference between calculating the nth term and printing n terms?**
+
+Calculating the nth term gives one Fibonacci number, whereas printing n terms displays the complete sequence starting from F(0) to F(n-1).
+
+## 13. Sample Input and Output
+
+Input:
+
+Enter number of terms: 7
+
+Output:
+
+Iterative Fibonacci Series: 0 1 1 2 3 5 8
+
+Recursive Fibonacci Series: 0 1 1 2 3 5 8
+
+## 14. Conclusion
+
+The Fibonacci series was successfully implemented using both recursive and non-recursive methods.
+
+The iterative method is more efficient because it takes O(n) time and O(1) space for calculating one term.
+
+The recursive method directly follows the mathematical definition but requires more execution time due to repeated function calls and uses O(n) stack space.
+
+Thus, the practical demonstrates the difference between iterative and recursive approaches and their time and space complexities.

@@ -1,0 +1,188 @@
+content = """PRACTICAL 5 – N-QUEENS USING BACKTRACKING
+============================================
+
+1. AIM
+------
+To solve the N-Queens problem using Backtracking, with the first queen
+fixed at position (0, 0).
+
+2. CONCEPT
+----------
+The N-Queens problem places N queens on an N x N chessboard so that no
+two queens attack each other.
+
+A queen can attack along:
+- The same row
+- The same column
+- Both diagonals
+
+This program places one queen in each row and prints the first valid
+solution found. The queen in the first row is fixed at column 0.
+
+3. WORKING OF THE ALGORITHM
+---------------------------
+1. Create an N x N board initialized with 0.
+2. Place the first queen at (0, 0), represented by 1.
+3. Start placing queens from the next row.
+4. Try each column in the current row.
+5. Use isSafe() to check whether the position is free from column and
+   diagonal attacks by previously placed queens.
+6. If safe, place the queen and recursively solve the next row.
+7. If a later row has no valid position, remove the current queen and
+   try the next column. This is called backtracking.
+8. If all rows receive a queen, print the board.
+9. If all possibilities fail, report that no solution exists with the
+   first queen fixed at (0, 0).
+
+4. IMPLEMENTATION DETAILS
+-------------------------
+
+A. Global variables
+-------------------
+g_n stores the size of the chessboard.
+g_board stores the N x N board. A value of 1 represents a queen and
+0 represents an empty square.
+
+B. isSafe(row, col)
+-------------------
+Checks whether a queen can be placed at the given position.
+
+It checks three directions:
+1. Same column: checks all rows above the current row.
+2. Upper-left diagonal: moves one row up and one column left.
+3. Upper-right diagonal: moves one row up and one column right.
+
+Only rows above are checked because queens are placed row by row.
+If any queen is found, it returns false; otherwise, true.
+
+C. solveNQueens(row)
+--------------------
+This is the recursive backtracking function.
+
+- Base case: if row == g_n, all rows have a queen, so return true.
+- If row == 0, skip it because the first queen is already fixed.
+- Try every column in the current row.
+- If isSafe() returns true, place a queen by setting the cell to 1.
+- Recursively solve the next row.
+- If recursion succeeds, return true.
+- If recursion fails, remove the queen by setting the cell back to 0
+  and try the next column.
+- If no column works, return false.
+
+D. printBoard()
+---------------
+Displays the solution matrix.
+1 represents a queen and 0 represents an empty position.
+
+E. run()
+--------
+Reads N, checks that N is at least 1, creates an N x N zero-filled board,
+and fixes the first queen at board[0][0] = 1.
+
+It calls solveNQueens(0). If a solution is found, it prints the board.
+Otherwise, it displays a message that no solution exists with the
+first queen fixed at (0, 0).
+
+F. main()
+---------
+Calls run() to execute the program.
+
+5. TIME AND SPACE COMPLEXITY
+----------------------------
+
+Time Complexity:
+- In the worst case, the backtracking search explores up to O(N!)
+  arrangements, because one queen is placed in each row and columns
+  cannot be repeated.
+- isSafe() scans up to O(N) cells for each attempted position.
+- Therefore, for this implementation, a conservative worst-case
+  upper bound is O(N x N!), including safety checks.
+
+Space Complexity:
+- Board storage: O(N^2).
+- Recursion stack: O(N), because at most one recursive call is made
+  for each row.
+- Total Space Complexity: O(N^2), dominated by the board.
+
+Note: Some algorithm descriptions quote O(N!) time for the search
+when safety checking is treated as constant time or implemented with
+extra column/diagonal arrays. This code scans the board, so O(N x N!)
+is a safer bound for this implementation.
+
+6. IMPORTANT CONCEPTS
+---------------------
+
+Backtracking:
+A problem-solving technique that builds a solution step by step.
+If a choice leads to failure, it undoes that choice and tries another.
+
+Base Case:
+The condition row == g_n means all N queens have been placed successfully.
+
+Pruning:
+isSafe() rejects attacking positions early, avoiding unnecessary
+recursive exploration.
+
+Fixed First Queen:
+The first queen is permanently placed at (0, 0). Therefore, the program
+may report no solution for a particular N even if a solution exists
+when the first queen is allowed in another column.
+
+7. IMPORTANT VIVA QUESTIONS
+---------------------------
+
+Q1. What is the N-Queens problem?
+Ans. Place N queens on an N x N board so that no two queens attack each other.
+
+Q2. Which technique is used?
+Ans. Backtracking.
+
+Q3. What does isSafe() check?
+Ans. It checks the same column, upper-left diagonal and upper-right diagonal.
+
+Q4. Why are rows above checked only?
+Ans. Because the algorithm places queens row by row, so no queens are
+placed in the lower rows yet.
+
+Q5. What is backtracking?
+Ans. Undoing a choice when it does not lead to a solution and trying
+another choice.
+
+Q6. What does 1 and 0 represent in the matrix?
+Ans. 1 represents a queen; 0 represents an empty cell.
+
+Q7. What is the base condition?
+Ans. row == g_n, meaning all queens have been placed.
+
+Q8. What is the time complexity?
+Ans. The search is commonly described as O(N!). Since this code's
+isSafe() scans up to N cells, a conservative bound is O(N x N!).
+
+Q9. What is the space complexity?
+Ans. O(N^2) for the board and O(N) for recursion, giving O(N^2) overall.
+
+Q10. Does this program print all solutions?
+Ans. No. It stops and prints the first solution found.
+
+Q11. Why can it report no solution even when N-Queens has a solution?
+Ans. Because the first queen is fixed at (0, 0), which may prevent a
+solution for that particular board size.
+
+8. QUICK EXAM REVISION
+----------------------
+1. Initialize an N x N board with 0.
+2. Fix the first queen at (0, 0).
+3. Place one queen in each next row.
+4. Check column and both upper diagonals using isSafe().
+5. If safe, place the queen and recurse.
+6. If recursion fails, remove the queen and try another column.
+7. Print the first solution or report failure.
+
+Complexity for this implementation:
+Time  = O(N x N!) conservative worst-case upper bound.
+Space = O(N^2) including the board and recursion stack.
+"""
+path = "/mnt/data/Practical_5_N_Queens_Explanation.txt"
+with open(path, "w", encoding="utf-8") as f:
+    f.write(content)
+print(path)

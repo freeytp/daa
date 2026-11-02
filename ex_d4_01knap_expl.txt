@@ -1,0 +1,215 @@
+content = """PRACTICAL 4 – 0/1 KNAPSACK USING DYNAMIC PROGRAMMING
+========================================================
+
+1. AIM
+------
+To solve the 0/1 Knapsack problem using Top-Down Dynamic Programming
+with Memoization and display the selected items.
+
+2. CONCEPT
+----------
+Given n items, each with a value and weight, and a knapsack capacity W,
+select items to maximize total value without exceeding W.
+
+In 0/1 Knapsack, each item is either:
+- Selected completely (1), or
+- Not selected (0).
+
+Fractions of items are not allowed.
+
+Dynamic Programming is used because the problem has overlapping
+subproblems and optimal substructure.
+
+3. WORKING OF THE ALGORITHM
+---------------------------
+Define solve(i, w) as the maximum value possible using the first i items
+with remaining capacity w.
+
+For each item, there are two choices:
+
+1. Exclude the item:
+   solve(i - 1, w)
+
+2. Include the item, only if its weight fits:
+   value[i - 1] + solve(i - 1, w - weight[i - 1])
+
+Take the maximum of these two choices and store the result in memo[i][w].
+
+Base case:
+If i == 0, no items are available, so the maximum value is 0.
+
+The final answer is solve(n, W).
+
+4. IMPLEMENTATION DETAILS
+-------------------------
+
+A. readItems()
+--------------
+Reads the value and weight of every item from the user and stores them
+in separate vectors:
+- value[i] stores the value of item i.
+- weight[i] stores the weight of item i.
+
+B. solveKnapsack()
+------------------
+This is the main recursive DP function.
+
+Parameters:
+- value and weight: item details.
+- memo: stores previously calculated results.
+- itemCount: number of items being considered.
+- capacity: current available capacity.
+
+Steps:
+1. If itemCount is 0, return 0 (base case).
+2. If memo[itemCount][capacity] is not -1, return the stored result.
+3. Calculate the value obtained by excluding the current item.
+4. If the item fits, calculate the value obtained by including it.
+5. Use max() to choose the better result.
+6. Store the answer in memo[itemCount][capacity].
+7. Return the stored result.
+
+Memoization avoids solving the same state repeatedly.
+
+C. printSelectedItems()
+-----------------------
+Traces the memoized solution to identify which items were selected.
+
+It starts from the full capacity and checks items in reverse order.
+
+For each item:
+- Calculate the best value when considering that item.
+- Calculate the best value without that item.
+- If the values differ, the item was selected.
+- Print its original item number, value and weight.
+- Reduce the remaining capacity by its weight.
+
+D. run()
+--------
+1. Reads the number of items.
+2. Creates vectors for values and weights.
+3. Calls readItems().
+4. Reads the knapsack capacity.
+5. Creates a memoization table of size (n + 1) x (W + 1), initialized
+   to -1 to indicate that a state has not yet been calculated.
+6. Calls solveKnapsack() to calculate the maximum value.
+7. Displays the maximum value and selected items.
+
+E. main()
+---------
+Calls run() to execute the program.
+
+5. TIME AND SPACE COMPLEXITY
+----------------------------
+
+Let:
+n = number of items.
+W = knapsack capacity.
+
+Time Complexity: O(n x W)
+There are at most (n + 1) x (W + 1) DP states. Each state performs
+constant work apart from recursive calls, which are memoized and
+therefore calculated only once.
+
+Space Complexity: O(n x W)
+The memoization table stores O(n x W) values.
+The recursion stack can use O(n) additional space.
+
+Overall Space Complexity: O(n x W), dominated by the memo table.
+
+This is called pseudo-polynomial time because complexity depends on
+the numeric capacity W, not just the number of bits required to represent W.
+
+6. IMPORTANT CONCEPTS
+---------------------
+
+Dynamic Programming:
+Solves a problem by storing results of smaller subproblems so they are
+not calculated repeatedly.
+
+Memoization:
+A top-down DP technique that stores the result of each recursive state.
+
+Overlapping Subproblems:
+The same (itemCount, capacity) state can be reached through different
+recursive paths.
+
+Optimal Substructure:
+The best solution can be formed from the best solutions to smaller
+subproblems.
+
+Why Greedy is not always suitable:
+Choosing the item with the highest value-to-weight ratio does not
+always produce the maximum value when fractions are not allowed.
+
+7. IMPORTANT VIVA QUESTIONS
+---------------------------
+
+Q1. What is the 0/1 Knapsack problem?
+Ans. Select whole items or exclude them to maximize value without
+exceeding the knapsack capacity.
+
+Q2. Why is it called 0/1 Knapsack?
+Ans. Each item has only two choices: 1 means selected and 0 means excluded.
+
+Q3. Which technique is used?
+Ans. Dynamic Programming, specifically Top-Down DP with Memoization.
+
+Q4. What is memoization?
+Ans. Storing previously calculated results to avoid repeated computation.
+
+Q5. What is the base condition?
+Ans. If itemCount == 0, return 0.
+
+Q6. What are the two choices for each item?
+Ans. Include the item if it fits, or exclude it.
+
+Q7. Why is max() used?
+Ans. To choose the greater value between including and excluding the item.
+
+Q8. What does -1 in the memo table indicate?
+Ans. That the state has not yet been calculated.
+
+Q9. What is the time complexity?
+Ans. O(n x W).
+
+Q10. What is the space complexity?
+Ans. O(n x W), including the memo table; recursion uses O(n) extra space.
+
+Q11. Why is the algorithm called pseudo-polynomial?
+Ans. Its running time depends on the numeric capacity W, not only on
+the input size in bits.
+
+Q12. What is the difference between 0/1 and Fractional Knapsack?
+Ans. 0/1 Knapsack does not allow fractions; Fractional Knapsack allows
+partial items and can be solved optimally using a greedy ratio strategy.
+
+8. IMPORTANT NOTES ABOUT THIS CODE
+----------------------------------
+- Weights and capacity must be non-negative integers because they are
+  used as indices in the memoization table. In normal use, item weights
+  should be positive.
+- The code uses long long for values to support larger total values.
+- The code prints one optimal selection. If multiple selections have
+  the same maximum value, it may print one of them.
+- Inputs should be valid and capacity should be non-negative. The
+  supplied code does not include input validation for these conditions.
+
+9. QUICK EXAM REVISION
+----------------------
+1. Define solve(i, w).
+2. Base case: i == 0 returns 0.
+3. Find the value without the current item.
+4. If it fits, find the value with the current item.
+5. Store max(include, exclude) in memo[i][w].
+6. Answer is solve(n, W).
+7. Trace the memoized values to print selected items.
+
+Complexity:
+Time  = O(n x W)
+Space = O(n x W), plus O(n) recursion stack.
+"""
+path = "/mnt/data/Practical_4_01_Knapsack_DP_Explanation.txt"
+with open(path, "w", encoding="utf-8") as f:
+    f.write(content)
+print(path)
